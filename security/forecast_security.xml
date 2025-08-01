@@ -1,0 +1,7 @@
+<odoo>
+    <record id="group_forecast_manager" model="res.groups">
+        <field name="name">Forecast Manager</field>
+        <field name="category_id" ref="base.module_category_sales_management"/>  <!-- adjust category if you want -->
+        <field name="comment">Users who can manage sales forecasts.</field>
+    </record>
+</odoo>

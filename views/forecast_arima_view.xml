@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- <record id="action_purchase_forecast_graph_wizard" model="ir.actions.client">
+                <field name="name">Purchase Forecast Graph</field>
+                <field name="tag">purchase_forecast_graph_dashboard.Template</field>
+                <field name="target">new</field>
+    </record> -->
+
+
+    <record id="purchase_forecast_view_list" model="ir.ui.view">
+        <field name="name">purchase.forecast.view.list</field>
+        <field name="model">purchase.forecast</field>
+        <field name="arch" type="xml">
+            <list string="">
+                <field name="name" required="1" />
+                <field name="forecasting_method" />
+                <field name="date_range" />
+            </list>
+        </field>
+    </record>
+    <!-- Main Forecast Form View -->
+    <record id="view_purchase_forecast_form" model="ir.ui.view">
+        <field name="name">purchase.forecast.form</field>
+        <field name="model">purchase.forecast</field>
+        <field name="arch" type="xml">
+            <form string="Purchase Forecast">
+                <header>
+                    <field name="forecasting_status" widget="statusbar" invisible="True" />
+
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button type="object" class="oe_stat_button" icon="fa-line-chart"
+                            name="action_generate_forecast" string="Generate Forecast"
+                            invisible="forecasting_status in ('done')" />
+                        <!-- <button type="object" class="oe_stat_button" icon="fa-file-excel-o"
+                            name="action_download_csv" string="Print Forecast Report" /> -->
+
+                        <button type="object" class="oe_stat_button" icon="fa-area-chart"
+                            name="action_purchase_forecast_graph" string="View Forecast Graph" />
+                        <button name="action_download_forecast_excel" icon="fa-bar-chart"
+                            type="object"
+                            string="Download Excel with Charts" class="btn-primary" />
+                        <!-- chech button -->
+                    </div>
+                    <div>
+                        <h1>
+                            <field name="name" readonly="1" nolabel="1" />
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="forecasting_method" readonly="change_forecast_method != True " />
+
+                        <!-- Info message about the ARIMA model -->
+                        <!-- <div class="alert alert-danger" style="margin-bottom: 10px;"
+                        invisible="change_forecast_method != False ">
+                            <strong>ℹ️ Info:</strong> We are currently using the for demand forecasting.
+                        </div> -->
+                        <field name="change_forecast_method" widget='boolean_toggle'
+                            readonly="forecasting_status in ('done')" />
+
+
+                        <!-- <button name="action_view_purchase_forecast_graph_dashboard"
+                        type="object"  icon="fa-line-chart" string="View Forecast Graph"/> -->
+
+
+                        <!-- <field name="default_forecasting_method"
+                        invisible="change_forecast_method != False "/> -->
+                    </group>
+
+                    <notebook>
+                        <page name="config" string="Configuration">
+                            <!-- Info Section -->
+                            <div
+                                style="background-color: #d9f1f7; padding: 15px; border-radius: 5px; margin-top: 15px;">
+                                <strong style="color: black;">Fields and their uses :-</strong>
+                                <ul style="margin-top: 10px;  color: black;">
+                                    <li><strong>Start Date</strong> : Initial date from which data
+                                        has to be extracted from database</li>
+                                    <li><strong>End Date</strong> : Date up to which data has to be
+                                        extracted from database</li>
+                                    <li><strong>Forecast Base</strong> : Select whether the
+                                        prediction has to be done for <strong>Specific</strong> or <strong>All
+                                        products</strong></li>
+                                    <li><strong>Products</strong> : Helps to choose specific
+                                        products</li>
+                                    <li><strong>Forecast Period</strong> : Select period of
+                                        forecasting the Purchase</li>
+                                    <li><strong>Forecast Unit</strong> : Count of (Forecast Period)
+                                        for forecasting Purchase</li>
+                                </ul>
+                            </div>
+                            <br></br>
+                            <group>
+                                <field name="date_range" readonly="forecasting_status in ('done')"
+                                    required='1' />
+                                <field name="start_date" readonly="forecasting_status in ('done')"
+                                    invisible="date_range not in ('specific_date')" />
+                                <field name="end_date" readonly="forecasting_status in ('done')"
+                                    invisible="date_range not in ('specific_date')" />
+                                <field name="interval_type"
+                                    readonly="forecasting_status in ('done')" />
+                                <field name="forecast_periods"
+                                    readonly="forecasting_status in ('done')" />
+                                <field name="include_all_products"
+                                    readonly="forecasting_status in ('done')" />
+                                <field name="product_ids" widget="many2many_tags"
+                                    invisible="include_all_products !=False"
+                                    domain="[('id', 'in', po_product_ids)]"
+                                    readonly="forecasting_status in ('done')" />
+                            </group>
+                        </page>
+                        <page string="ForeCasting Cofficient"
+                            invisible="forecasting_method in ('prophet')">
+                            <div
+                                style="background-color: #d9f1f7; padding: 15px; border-radius: 5px; margin-top: 15px;">
+                                <strong style="color: black;">Forecasting Coefficients Description
+                                    :-</strong>
+                                <br />
+                                <div style="margin-left: 15px; margin-top: 5px;">
+
+                                    <ul style="margin-top: 5px; color: black;">
+                                        <li><code style="color: black;">'<b style="color: black;">p</b>'</code> is the number of
+                                            Autoregressive terms.</li>
+                                        <li><code style="color: black;">'<b style="color: black;">d</b>'</code> is the number of
+                                            nonseasonal differences needed for Stationarity.</li>
+                                        <li><code style="color: black;">'<b style="color: black;">q</b>'</code> is the number of
+                                            lagged forecast errors in the prediction equation</li>
+                                        <li><code style="color: black;">'<b style="color: black;">s</b>'</code> is the length of
+                                            the repeating seasonal cycle within the time series
+                                            data. </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <br></br>
+                            <h2
+                                style="color: #6c63ff; font-size: 20px; font-weight: bold; margin-top: 10px;">
+                                Order Coefficients
+                            </h2>
+                            <group>
+                                <field name="p_cofficient" readonly="forecasting_status in ('done')" />
+                                <field name="d_cofficient" readonly="forecasting_status in ('done')" />
+                                <field name="q_cofficient" readonly="forecasting_status in ('done')" />
+                                <field name="s_cofficient" readonly="forecasting_status in ('done')" />
+
+                            </group>
+                        </page>
+
+                        <page string="Forecast Results">
+                            <field name="line_ids" readonly="forecasting_status in ('done')">
+                                <list>
+                                    <field name="product_id" />
+                                    <field name="forecast_qty" />
+                                    <field name="suggested_qty" />
+                                </list>
+                                <form string="Forecast Result">
+                                    <sheet>
+                                        <notebook>
+
+                                            <!-- Product Data Tab -->
+                                            <page string="Forecast Info">
+
+                                                <group>
+                                                    <field name="product_id" />
+                                                    <field name="vendor_id" /> <!-- ✅ Add this -->
+                                                    <field name="forecast_qty" />
+                                                    <field name="on_hand_qty" />
+                                                    <field name="suggested_qty" />
+                                                </group>
+                                                <group string="Date-wise Forecasted Quantity">
+                                                    <field name="forecast_info_ids">
+                                                        <list editable="bottom">
+                                                            <field name="date" />
+                                                            <field name="qty" />
+
+
+                                                        </list>
+                                                    </field>
+                                                </group>
+                                            </page>
+
+                                            <!-- Forecast Graph Tab
+                                            <page string="Forecast Graph">
+                                                <group>
+                                                    <field name="forecast_graph" widget="image" />
+                                                </group>
+                                            </page> -->
+
+                                            <!-- Forecast CSV Tab
+                                            <page string="CSV File">
+                                                <group>
+                                                    <field name="forecast_csv_filename"/>
+                                                    <field name="forecast_csv" widget="binary" filename="forecast_csv_filename"/>
+                                                </group>
+                                            </page> -->
+
+
+                                        </notebook>
+
+                                        <footer>
+                                            <!-- <button name="action_purchase_forecast_graph"
+                                                    type="object"
+                                                    class="btn btn-primary"
+                                                    icon="fa-bar-chart"
+                                                    string="Show Forecast Graph"/>
+                                            <button string="Close" class="btn-secondary" special="cancel"/> -->
+                                            <!-- <button name="get_forecast_chart_data"
+                                            type="object" class="oe_stat_button" icon="fa-bar-chart"
+                                            string="Check Button"/> -->
+
+                                        </footer>
+                                    </sheet>
+                                </form>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_purchase_forecast_graph" model="ir.ui.view">
+        <field name="name">forecast.line.detail.view.graph</field>
+        <field name="model">forecast.line.detail</field>
+        <field name="arch" type="xml">
+            <graph string="Forecast vs Historical" type="line">
+                <field name="date" type="row" />
+                <field name="quantity" type="measure" />
+                <field name="data_type" type="col" />
+                <field name="historical_qty" type="measure" />
+                <field name="forecast_qty" type="measure" />
+            </graph>
+        </field>
+    </record>
+
+    <record id="action_purchase_forecast_graph" model="ir.actions.act_window">
+        <field name="name">Forecast Graph</field>
+        <field name="res_model">forecast.line.detail</field>
+        <field name="view_mode">graph</field>
+        <field name="context">{'group_by': ['data_type']}</field>
+
+    </record>
+
+    <!-- Forecast Line list View -->
+    <record id="view_purchase_forecast_line_list" model="ir.ui.view">
+        <field name="name">purchase.forecast.line.list</field>
+        <field name="model">purchase.forecast.line.arima</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="product_id" />
+                <field name="forecast_qty" />
+                <field name="on_hand_qty" />
+                <field name="suggested_qty" />
+                <field name="forecast_csv" widget="binary" filename="forecast_csv_filename" />
+            </list>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_purchase_forecast_arima" model="ir.actions.act_window">
+        <field name="name">Purchase Forecast</field>
+        <field name="res_model">purchase.forecast</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+
+    <!-- Menu -->
+    <!-- <menuitem id="menu_purchase_forecast_root_arima" name="Forecasting"
+    parent="purchase.menu_purchase_root" sequence="99"/>
+    <menuitem id="menu_purchase_forecast_arima" name="Product Forecast"
+    parent="menu_purchase_forecast_root_arima" action="action_purchase_forecast_arima"/>
+     -->
+
+</odoo>

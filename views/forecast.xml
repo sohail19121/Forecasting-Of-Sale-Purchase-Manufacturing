@@ -1,0 +1,234 @@
+<odoo>
+    <data>
+        <!-- Tree View -->
+        <record id="view_sale_forecast_list" model="ir.ui.view">
+            <field name="name">sale.forecast.list</field>
+            <field name="model">sale.forecast</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="forecast_name" />
+                    <field name="algorithm" readonly="1" />
+                    <field name="date_range" />
+                    <!-- <field name = "forecast_base" string = "Base Selection"/> -->
+                </list>
+            </field>
+        </record>
+
+        <!-- Form View -->
+        <record id="view_sale_forecast_form" model="ir.ui.view">
+            <field name="name">sale.forecast.form</field>
+            <field name="model">sale.forecast</field>
+            <field name="arch" type="xml">
+                <form string="Sales Forecast Configuration">
+                    <header>
+                        <field name="status" widget="statusbar" invisible="True" />
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button type="object" class="oe_stat_button" icon="fa-line-chart"
+                                name="action_run_forecast_with_status" string="Generate Forecast"
+                                invisible="status != 'draft'" />
+                            <button type="object" class="oe_stat_button" icon="fa-area-chart"
+                                name="action_mrf_forecast_graph" string="View Forecast Graph" />
+                            <button type="object" class="oe_stat_button" icon="fa-bar-chart"
+                                name="action_download_csv" string="Download Excel with Charts" />
+                            <!-- <button type="object" class="oe_stat_button" icon="fa-sliders"
+                            name="action_open_hyper_parameter" string="Tune Hyper Parameter"
+                            invisible="algorithm not in ('arima', 'sarima') or status != 'draft'"/> -->
+                        </div>
+                        <div>
+                            <h1>
+                                <field name="forecast_name" readonly="1" nolabel="1" />
+                            </h1>
+                        </div>
+                        <group>
+                            <!-- <field name = "default_method" /> -->
+                            <field name="algorithm"
+                                readonly="not want_to_change_method or status != 'draft'" />
+                            <field name="want_to_change_method" widget="boolean_toggle"
+                                readonly="status != 'draft'" />
+                        </group>
+                        <notebook>
+                            <page string="Configurations">
+                                <group colspan="4">
+                                    <div
+                                        style="background-color: #d9edf7; padding: 16px; border-radius: 6px; border: 1px solid #bce8f1;">
+                                        <strong style="color: black;">Fields and their uses :-</strong>
+                                        <ul
+                                            style="list-style-type: disc; padding-left: 20px; margin-top: 8px; color: black;">
+                                            <li><b style="color: black;">Start Date</b>: Initial
+                                                date from which data has to be extracted from
+                                                database</li>
+                                            <li><b style="color: black;">End Date</b>: Date upto
+                                                which data has to be extracted from database</li>
+                                            <li><b style="color: black;">Forecast Base</b>: Select
+                                                whether the prediction has to be done for <b>
+                                                Specific</b> or <b>All products</b></li>
+                                            <li><b style="color: black;">Products</b>: Helps to
+                                                choose specific products</li>
+                                            <li><b style="color: black;">Forecast Period</b>: Select
+                                                period of forecasting the Sales</li>
+                                            <li><b style="color: black;">Forecast Unit</b>: Count of
+                                                (Forecast Period) for forecasting sales</li>
+                                        </ul>
+                                    </div>
+                                </group>
+                                <group>
+
+                                    <field name="date_range" readonly="status != 'draft'" />
+                                    <field name="start_date" readonly="status != 'draft'"
+                                        invisible="date_range != 'specific'" />
+                                    <field name="end_date" readonly="status != 'draft'"
+                                        invisible="date_range != 'specific'" />
+                                    <field name="forecast_period" readonly="status != 'draft'" />
+                                    <field name="aggregate_forecasting"
+                                        readonly="mrf_forecasting_status in ('done')" />
+                                    <field name="product_id" widget="many2many_tags"
+                                        invisible="aggregate_forecasting != False"
+                                        readonly="status != 'draft'" />
+
+
+                                    <field name="forecast_unit" readonly="status != 'draft'" />
+
+
+                                </group>
+                            </page>
+                            <page string="Forecasting Coefficients"
+                                invisible="algorithm not in ('arima', 'sarima')">
+                                <div
+                                    style="background-color: #d9edf7; padding: 16px 20px; border-radius: 6px; margin: 10px 0; font-size: 14px; color: #31708f;">
+                                    <div>
+                                        <strong
+                                            style="font-size: 16px; display: block; margin-bottom: 6px; color: black;">
+                                            Forecasting Coefficients Description :-
+                                        </strong>
+                                        <strong
+                                            style="display: block; margin-bottom: 6px; font-size: 15px; color: black;">
+                                            Order Coefficients
+                                        </strong>
+                                        <ul
+                                            style="list-style-type: disc; padding-left: 20px; margin-top: 4px;">
+                                            <li> '<b style="color: black;">p</b>' is the number of <b>
+                                                Autoregressive</b> terms. </li>
+                                            <li> '<b style="color: black;">d</b>' is the number of
+                                                nonseasonal differences needed for <b>Stationarity</b>
+                                                . </li>
+                                            <li> '<b style="color: black;">q</b>' is the number of
+                                                lagged forecast errors in the prediction equation. </li>
+                                            <li> '<b style="color: black;">s</b>' is the length of
+                                                the repeating seasonal cycle within the time series
+                                                data. </li>
+                                        </ul>
+                                    </div>
+                                    <!-- <div invisible="algorithm != 'sarima'">
+                                        <strong style="font-size: 16px; display: block; margin-bottom: 6px; color: black;">
+                                            Seasonal Order Coefficients
+                                        </strong>
+                                        <ul style="list-style-type: disc; padding-left: 20px; margin-top: 4px; color: black;">
+                                            <li>
+                                                '<b  style="color: black;">'P'</b>'is the number of <b>Seasonal Autoregressive </b> terms.
+                                            </li>
+                                            <li>
+                                                '<b  style="color: black;">'D'</b>' is the number of Seasonal differences needed for
+                                    <b>Stationarity</b>.
+                                            </li>
+                                            <li>
+                                                '<b  style="color: black;">'Q'</b>' is the number of Seasonal lagged forecast errors in the
+                                    prediction equation.
+                                            </li>
+                                        </ul>
+                                    </div> -->
+                                </div>
+                                <h2
+                                    style="color: #6c63ff; font-size: 20px; font-weight: bold; margin-top: 10px;">
+                                    Order Coefficients
+                                </h2>
+                                <group>
+
+                                    <field name="q_mr" readonly="status != 'draft'" />
+                                    <field name="p_arima" readonly="status != 'draft'" />
+
+
+                                    <field name="d_arima" readonly="status != 'draft'" />
+                                    <field name="m_sarima" readonly="status != 'draft'" />
+                                </group>
+                                <!-- <field name = "p_arima_min" invisible = "True" readonly =
+                                "status != 'draft'"/>
+                                        <field name = "p_arima_max" invisible = "True" readonly = "status != 'draft'"/>
+                                        <field name = "min_q_automr" invisible = "True" readonly = "status != 'draft'"/>
+                                        <field name = "max_q_automr" invisible = "True" readonly = "status != 'draft'"/>
+                                        <field name = "min_d_arima" invisible = "True" readonly = "status != 'draft'" />
+                                    
+                                 -->
+                                <!-- <div class="alert alert-warning" role="alert"
+                                style="margin-bottom:10px;" invisible="algorithm != 'sarima'">
+                                    <b>Be Careful to Select Trend Field, If data does not have trend, don't select Trend field</b>
+                                </div> -->
+
+                                <!-- <div invisible="algorithm != 'sarima'">
+                                    <h2 style="color: #6c63ff; font-size: 20px; font-weight: bold; margin-top: 10px;">
+                                        Seasonal Order Coefficients
+                                    </h2>
+                                    <group>
+                                        <group>
+                                            <field name = "p_sarima" />
+                                            <field name = "q_sarima" />
+                                            <field name = "trends_sarima"/>
+                                        </group>
+                                        <group>
+                                            <field name = "d_sarima" />
+                                            <field name = "m_sarima" />
+                                            <field name = "min_p_sarima" invisible = "True" readonly = "status != 'draft'" />
+                                            <field name = "max_p_sarima" invisible = "True" readonly = "status != 'draft'" />
+                                            <field name = "min_q_sarima" invisible = "True" readonly = "status != 'draft'"/>
+                                            <field name = "max_q_sarima" invisible = "True" readonly = "status != 'draft'"/>
+                                            <field name = "min_d_sarima" invisible = "True" readonly = "status != 'draft'"/>
+                                            <field name = "max_d_sarima" invisible = "True" readonly = "status != 'draft'"/>
+                                        </group>
+                                    </group>
+                                </div> -->
+                            </page>
+                            <page string="Forecast result">
+                                <field name="result_ids"
+                                    readonly="mrf_forecasting_status in ('done')">
+                                    <list>
+                                        <field name="product_id" string="Sales Forecast" />
+                                        <field name="date" string="Forecast date"/>
+                                        <field name="predicted_value" string="Total Predicted Sales" />
+
+                                    </list>
+                                </field>
+                            </page>
+                            <!-- <page string="Result" invisible="status == 'draft'">
+                                <field name="result_ids" readonly="1" nolabel="1">
+                                    <list editable="bottom">
+                                        <field name="period_range" string="Period Range" />
+                                        <field name="data_type" />
+                                        <field name="predicted_value" />
+                                    </list>
+                                </field>
+                            </page>
+                            <page string="Charts" invisible="status == 'draft'">
+                                <group string="Forecast Visualization">
+                                    <field name="id" widget="sales_forecast_graph_widget"
+                                        readonly="1" nolabel="1" />
+                                </group>
+                            </page> -->
+                        </notebook>
+                    </sheet>
+                    <chatter />
+                </form>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="action_sales_forecast_overview" model="ir.actions.act_window">
+            <field name="name">Forecast Overview</field>
+            <field name="res_model">sale.forecast</field>
+            <field name="view_mode">list,form</field>
+            <field name="context">{'default_algorithm': ''}</field>
+        </record>
+
+
+    </data>
+</odoo>

@@ -1,0 +1,56 @@
+{
+    'name': 'Forecast Plugin',
+    'version': '1.0',
+    'summary': 'Forecast future sales based on historical sales data',
+    'description': """
+        This module extends the Sales app to provide sales forecasting capabilities.
+        It adds a new menu inside the Sales module with options to forecast by product,
+        salesperson, and more.
+    """,
+    'author': 'CSL',
+    'category': 'Sales',
+    'depends': ['base','sale',"purchase","stock", "stock_sms"],
+    "license":"LGPL-3",
+    'data': [
+        'security/security.xml',
+        'security/ir.model.access.csv',
+        #'views/forcast_arima_graph.xml',
+        "views/forecast_arima_view.xml",
+        "views/mrf_detailed_view.xml",
+        "views/forecast_detailed_arima.xml",
+        "views/purchase_config_extended.xml",
+        "views/purchase_forecast_menu.xml",
+        'wizard/parameter.xml',
+         'views/new_setting.xml',
+        'views/sales.xml',
+        'views/final_result.xml',
+        'views/result.xml',
+        'views/forecast.xml',
+        'views/purchase_order_extend.xml',
+        "views/mrf_forecast_view.xml",
+        #"views/check.xml",
+        "views/res_config_setting_mrf.xml",
+        "views/wizard_view.xml",
+        #'data/forecast_sequence.xml',
+        'data/template_email.xml',
+        'data/sequence.xml',
+        "views/res_config_view.xml",
+        'views/menu.xml',
+    ],
+
+    'assets': {
+        'web.assets_backend_lazy': [
+            'ib_forecasting/static/src/js/forecast_graph.js',
+            'ib_forecasting/static/src/js/hide_new_button.js',
+            'ib_forecasting/static/src/js/graph_view.js',
+            'ib_forecasting/static/src/css/sales_graph.css',
+            'ib_forecasting/static/src/css/forecast_graph.css',
+            'ib_forecasting/static/src/xml/sales_graph.xml',
+            'ib_forecasting/static/src/xml/forecast_graph.xml',
+        ],
+    },
+
+    'installable': True,
+    'application': False,
+    'auto_install': False,
+}

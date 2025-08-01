@@ -1,0 +1,77 @@
+<odoo>
+    <record id="view_hyper_parameter_form" model="ir.ui.view">
+        <field name="name">hype.parameter.form</field>
+        <field name="model">hype.parameter</field>
+        <field name="arch" type="xml">
+            <form string="🔧 Hyper Parameter Tuner">
+                <sheet>
+                    <!-- Top Info Messages -->
+                    <div class="alert alert-info" role="alert" style="margin-bottom:10px;">
+                        <b>To make tuning faster and efficient</b>, Please don't enter value of order and seasonal order coefficients too large.
+                    </div>
+                    <div class="alert alert-warning" role="alert" style="margin-bottom:20px;">
+                        Keep Patience while your model is being tuned, It may take several hours if parameters provided are too large.<br/>
+                        If fitting those parameters in Forecasting Coefficients cause any scientific exceptions, please either increment/decrement the values by 1.
+                    </div>
+
+                    <!-- Selected Forecast Method Display -->
+                    <group>
+                        <field name="forecast_method" readonly="1"/>
+                    </group>
+
+                    <!-- Order Coefficient Fields Title -->
+                   <div class="o_form_label" style="font-size: 18px; margin-top: 15px; color: #6c63ff;;">
+                        Order Coefficients
+                    </div>            
+                    <!-- Coefficient Grid Layout -->
+                    <group>
+                        <group string="" col="2" colspan="2">
+                            <group>
+                                <field name="p_arima_min"/>
+                                <field name="p_arima_max"/>
+                            </group>
+                            <group>
+                                <field name = "min_d_arima"/>
+                                <field name = "max_d_arima" />
+                            </group>
+                        </group>
+                        <group>
+                            <field name="min_q_automr" string="Min Value of q Coefficient (Moving Average)"/>
+                            <field name="max_q_automr" string="Max Value of q Coefficient (Moving Average)"/>
+                        </group>
+                    </group>
+                    <div invisible = "forecast_method != 'sarima'" >
+                        <div class="o_form_label" style="font-size: 18px; margin-top: 15px; color: #6c63ff;;">
+                            Seasonal Coefficients
+                        </div>
+                        <group>
+                            <group>
+                                <field name = "min_p_sarima" />
+                                <field name = "max_p_sarima" />
+                                <field name = "min_q_sarima" />
+                                <field name = "max_q_sarima" />
+                            </group>
+                            <group>
+                                <field name = "min_d_sarima" />
+                                <field name = "max_d_sarima" />
+                            </group>
+                        </group>
+                    </div>
+                    <!-- Footer Buttons -->
+                    <footer>
+                        <button name="action_save_parameters" type="object" string="Apply Parameters" class="btn-primary"/>
+                        <button string="Cancel" special="cancel"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_hype_parameter_tuner" model="ir.actions.act_window">
+        <field name="name">Hyper Parameter Tuner</field>
+        <field name="res_model">hype.parameter</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>
+

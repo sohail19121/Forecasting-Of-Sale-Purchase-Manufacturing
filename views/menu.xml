@@ -1,0 +1,66 @@
+<odoo>
+    <data>
+        <menuitem
+            id="menu_sales_forecast_root"
+            name="Sale Forecast"
+            parent="sale.sale_menu_root"
+            sequence="41"
+            groups="ib_forecasting.group_sales_forecast" />
+
+        <menuitem
+            id="menu_sales_forecast_main"
+            name="Sales Forecast"
+            action="action_sales_forecast_overview"
+            parent="menu_sales_forecast_root"
+            groups="ib_forecasting.group_sales_forecast" />
+
+        <menuitem
+            id="menu_sales_forecast_result"
+            name="Forecast Result"
+            action="action_final_result_overview"
+            parent="menu_sales_forecast_root"
+            groups="ib_forecasting.group_sales_forecast" />
+
+        <menuitem id="menu_purchase_forecast_root_arima"
+            name="Purchase Forecasting"
+            parent="purchase.menu_purchase_root"
+            sequence="99"
+            groups="ib_forecasting.group_purchase_forecast" />
+
+        <menuitem id="menu_purchase_forecast_arima"
+            name="Product Forecast"
+            parent="menu_purchase_forecast_root_arima"
+            action="action_purchase_forecast_arima" />
+
+        <menuitem id="menu_purchase_forecast_line_sub"
+            name="Forecast Results"
+            parent="menu_purchase_forecast_root_arima"
+            action="action_purchase_forecast_line_sub"
+            sequence="20" />
+
+        <menuitem id="menu_mrf_forecast_root"
+            name="Manufaturing Forecasting"
+            parent="mrp.menu_mrp_root"
+            sequence="99"
+            groups="ib_forecasting.group_mfg_forecast" />
+
+        <menuitem id="menu_mrf_forecast"
+            name=" Manufacture Forecast"
+            parent="menu_mrf_forecast_root"
+            action="mrf_forecast_action"
+            groups="ib_forecasting.group_mfg_forecast" />
+
+        <menuitem id="menu_mrf_forecast_line_sub"
+            name="Forecast Results"
+            parent="menu_mrf_forecast_root"
+            action="action_mrf_forecast_line_sub"
+            sequence="20"
+            groups="ib_forecasting.group_mfg_forecast" />
+
+        <!-- <menuitem id="manufacturing_forecast_menu" name="Manufacturing Forecast"
+              parent="menu_mrf_forecast_root"
+              action="manufacturing_forecast_action"/> -->
+
+
+    </data>
+</odoo>

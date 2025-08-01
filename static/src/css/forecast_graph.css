@@ -1,0 +1,88 @@
+.o_forecast_page_container {
+    width: 100%;
+    padding: 2rem; /* adjust as needed */
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+}
+
+.o_forecast_graph_container {
+    width: 100%;
+    max-width: 800px; /* change as needed */
+    background: #fff;
+    border-radius: 1rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    padding: 1rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.o_forecast_graph_container:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+}
+
+#forecastChart {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.o_forecast_back_btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: linear-gradient(90deg, #4f46e5, #3b82f6); /* beautiful blue gradient */
+    color: #fff;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border: none;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.o_forecast_back_btn:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 6px 16px rgba(59, 130, 246, 0.5);
+    background: linear-gradient(90deg, #4338ca, #2563eb);
+}
+
+.o_forecast_back_btn:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.4);
+}
+
+.o_forecast_header {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 1rem;
+}
+
+.o_forecast_toggle_btn {
+    background: linear-gradient(90deg, #4f46e5, #3b82f6); /* blue gradient */
+    color: #fff;
+    border: none;
+    border-radius: 0.75rem;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(59, 130, 246, 0.4);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.o_forecast_toggle_btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(59, 130, 246, 0.5);
+    background: linear-gradient(90deg, #4338ca, #2563eb);
+}
+
+#forecastChart {
+    width: 100%;
+    height: 300px !important;
+    max-height: 300px !important;
+    display: block;
+}

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_sales_forecast_line_list" model="ir.ui.view">
+        <field name="name">mrf.forecast.line.list</field>
+        <field name="model">mrf.forecast.line</field>
+        <field name="priority" eval="20" />
+        <field name="arch" type="xml">
+            <list>
+                <field name="product_id" />
+                <field name="forecast_date" />
+                <field name="forecast_mos" />
+                <field name="forecast_qty" />
+            </list>
+        </field>
+    </record>
+
+    <record id="action_mrf_forecast_line_sub" model="ir.actions.act_window">
+        <field name="name">Forecast Results</field>
+        <field name="res_model">mrf.forecast.line</field>
+        <field name="view_mode">list</field>
+        <field name="view_id" ref="view_sales_forecast_line_list" />
+        <field name="help" type="html">
+            <p>Manage forecast results generated from purchase forecasting.</p>
+        </field>
+    </record>
+
+</odoo>

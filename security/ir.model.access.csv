@@ -1,0 +1,17 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_sale_forecast_user,sale.forecast.user,model_sale_forecast,,1,1,1,1
+access_sale_result,forecast.result_user,model_forecast_result,,1,1,1,1
+access_sale_final_result,forecast.final_user,model_final_result,,1,1,1,1
+access_hyep_parameter,forecast_parameter,model_hype_parameter,,1,1,1,1
+access_purchase_forecast,purchase.forecast,model_purchase_forecast,,1,1,1,1
+access_purchase_forecast_line_arima,purchase.forecast.line.arima,model_purchase_forecast_line_arima,,1,1,1,1
+access_forecast_info,forecast.info,model_forecast_info,,1,1,1,1
+access_mrf_forecast,mrf.forecast,model_mrf_forecast,,1,1,1,1
+access_mrp_mo_forecast,mrp.mo.forecast,model_mrp_mo_forecast,,1,1,1,1
+access_mrf_forecast_line,mrf.forecast.line,model_mrf_forecast_line,,1,1,1,1
+access_mrf_forecast_graph,mrf.forecast.graph,model_mrf_forecast_graph,,1,1,1,1
+access_forecast_line_detail,forecast.line.detail,model_forecast_line_detail,,1,1,1,1
+access_mrf_component_wizard,mrf.component.wizard,model_mrf_component_wizard,,1,1,1,1
+access_mrf_component_wizard_line,mrf.component.wizard.line,model_mrf_component_wizard_line,,1,1,1,1
+access_mrf_component_line,mrf.component.line,model_mrf_component_line,,1,1,1,1
+access_mrf_sales_graph,mrf.sales.graph,model_mrf_sales_graph,,1,1,1,1

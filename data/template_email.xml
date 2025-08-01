@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="email_template_purchase_po" model="mail.template">
+        <field name="name">PO Approval Summary</field>
+        <field name="model_id" ref="ib_forecasting.model_purchase_forecast"/>
+        <field name="subject">Approval Needed: Forecasted Purchase Summary</field>
+        <field name="email_from">{{user.email_formatted or object.company_id.email or 'no-reply@yourhospital.com'}}</field>
+        <!-- <field name="email_to">${user.email}</field> -->
+        <field name="body_html"><![CDATA[
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        </head>
+        <body style="font-family: 'Helvetica Neue', Arial, sans-serif; background-color: #f4f6f8; margin: 0; padding: 20px; line-height: 1.5;">
+            <table style="max-width: 700px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                <tr>
+                    <td style="background-color: #4a90e2; padding: 20px; text-align: center;">
+                        <h2 style="color: #ffffff; font-size: 22px; font-weight: 500; margin: 0;">Purchase Order Approval Summary</h2>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 30px;">
+                        <p style="font-size: 15px; color: #444444; margin-bottom: 15px;">Dear Team,</p>
+                        <p style="font-size: 15px; color: #444444; margin-bottom: 15px;">
+                            Our forecasting system has identified the following products with low stock levels and recommends procurement.
+                        </p>
+                        <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+                            <thead>
+                                <tr style="background-color: #f0f0f0;">
+                                    <th style="padding: 10px; border: 1px solid #ccc; text-align: left;">Product</th>
+                                    <th style="padding: 10px; border: 1px solid #ccc; text-align: right;">Suggested Qty</th>
+                                    <th style="padding: 10px; border: 1px solid #ccc; text-align: right;">Current Stock</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="ctx.get('product_lines', [])" t-as="line">
+                                    <tr>
+                                        <td style="padding: 10px; border: 1px solid #ddd;"><t t-out="line.product_id.name or 'N/A'"/></td>
+                                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;"><t t-out="line.suggested_qty or 'N/A'"/></td>
+                                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;"><t t-out="line.on_hand_qty or 'N/A'"/></td>
+                                    </tr>
+                                </t>
+
+                            </tbody>
+                        </table>
+                        <p style="font-size: 15px; color: #444444; margin-bottom: 15px;">
+                            Please review and approve the above purchase suggestions to ensure inventory stability.
+                        </p>
+                        <p style="font-size: 14px; color: #444444;">
+                            For queries, contact the procurement team at 
+                            <a href="mailto:procurement@company.com" style="color: #4a90e2;">procurement@company.com</a>.
+                        </p>
+                        <hr style="margin: 25px 0; border: none; border-top: 1px solid #e0e0e0;">
+                        <p style="font-size: 13px; color: #777777;">
+                            Best regards,<br/>
+                            <strong style="color: #4a90e2;">CSL Forecast System</strong><br/>
+                            Automated Inventory Management
+                        </p>
+                    </td>
+                </tr>
+            </table>
+        </body>
+        </html>
+        ]]></field>
+    </record>
+
+
+</odoo>

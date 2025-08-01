@@ -1,0 +1,25 @@
+<odoo>
+    <record id="view_mrf_forecast_graph" model="ir.ui.view">
+        <field name="name">forecast.result.view.graph</field>
+        <field name="model">mrf.sales.graph</field>
+        <field name="arch" type="xml">
+            <graph string="Forecast vs Historical" type="line">
+                <field name="date" type="row" />
+                <field name="quantity" type="measure" />
+                <field name="data_type" type="col" />
+                <field name="historical_qty" type="measure" />
+                <field name="forecast_qty" type="measure" />
+            </graph>
+        </field>
+    </record>
+
+    <record id="action_mrf_forecast_graph" model="ir.actions.act_window">
+        <field name="name">Forecast Graph</field>
+        <field name="res_model">mrf.sales.graph</field>
+        <field name="view_mode">graph</field>
+        <field name="context">{'group_by': ['data_type']}</field>
+
+    </record>
+
+
+</odoo>

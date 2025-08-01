@@ -1,0 +1,23 @@
+<odoo>
+  <record id="module_category_forecast" model="ir.module.category">
+    <field name="name">Forecast</field>
+    <field name="sequence">15</field>
+  </record>
+
+  <record id="group_purchase_forecast" model="res.groups">
+    <field name="name">Forecast Access</field>
+    <field name="category_id" ref="ib_forecasting.module_category_forecast"/>
+</record>
+
+<record id="group_sales_forecast" model="res.groups">
+    <field name="name">Sales Forecast Access</field>
+    <field name="category_id" ref="ib_forecasting.module_category_forecast"/>
+  </record>
+  
+  <record id="group_mfg_forecast" model="res.groups">
+    <field name="name">Manufacture Forecast Access</field>
+    <field name="category_id" ref="ib_forecasting.module_category_forecast"/>
+  </record>
+
+
+</odoo>

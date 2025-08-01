@@ -1,0 +1,106 @@
+<odoo>
+    <data>
+
+        <record id="action_forecast_graph_wizard" model="ir.actions.client">
+            <field name="name">Forecast Graph</field>
+            <field name="tag">forecast_graph_dashboard.Template</field>
+            <field name="target">new</field>
+        </record>
+
+
+        <!-- list View for final.result -->
+        <record id="view_final_result_list" model="ir.ui.view">
+            <field name="name">final.result.list</field>
+            <field name="model">final.result</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="forecast_id" string="Sales Forecast"/>
+                    <field name="predicted_value" string="Total Predicted Sales"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Form View for final.result -->
+        <!-- <record id="view_final_result_form" model="ir.ui.view">
+            <field name="name">final.result.form</field>
+            <field name="model">final.result</field>
+            <field name="arch" type="xml">
+                <form string="Final Forecast Result">
+                    <sheet>
+                        <div style="text-align: left; margin: 16px 0 0 10px;">
+                            <h1 style="
+                                font-size: 28px;
+                                font-weight: bold;
+                                color: #5A5C69;
+                                margin: 0;
+                                opacity: 0;
+                                transform: scale(0.95);
+                                animation-name: fadeZoomIn;
+                                animation-duration: 0.8s;
+                                animation-fill-mode: forwards;
+                                animation-timing-function: ease-in-out;
+                            ">
+                                <field name="forecast_id" readonly="1" nolabel="1"/>
+                            </h1>
+                        </div>
+                        <div style="display: none;">
+                            <svg>
+                                <style>
+                                    @keyframes fadeZoomIn {
+                                        from {
+                                            opacity: 0;
+                                            transform: scale(0.95);
+                                        }
+                                        to {
+                                            opacity: 1;
+                                            transform: scale(1);
+                                        }
+                                    }
+                                </style>
+                            </svg>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="predicted_value" string="Total Predicted Sales" readonly="1"/>
+                                <field name = "forecast_period" invisible = "True" />
+                                <button name="action_view_forecast_pivot" type="object" string="View Pivot" icon = "fa-file-excel-o"/>
+                                <button name="%(action_forecast_graph_wizard)d" string="View Forecast Graph" type="action" context="{'active_id': id}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Forecast Results">
+                                <field name="result_ids" domain="[('is_historical', '=', False)]" readonly = "1" >
+                                    <list editable="bottom">
+                                        <field name="period_range" string="Period Range"/>
+                                        <field name = "data_type" />
+                                        <field name="predicted_value" string="Predicted Value" />
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_forecast_result_pivot" model="ir.ui.view">
+            <field name="name">forecast.result.pivot</field>
+            <field name="model">forecast.result</field>
+            <field name="arch" type="xml">
+                <pivot string="Monthly Forecast Sales">
+                    <field name="forecast_id" type="col"/>
+                    <field name="date" interval="month" type="row"/>
+                    <field name="predicted_value" type="measure"/>
+                    <field name="is_historical" />
+                </pivot>
+            </field>
+        </record> -->
+
+        <!-- Action for final.result -->
+        <record id="action_final_result_overview" model="ir.actions.act_window">
+            <field name="name">Final Forecast Results</field>
+            <field name="res_model">final.result</field>
+            <field name="view_mode">list</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,9 @@
+<odoo>
+    <record id="seq_purchase_forecast" model="ir.sequence">
+        <field name="name">Purchase Forecast</field>
+        <field name="code">purchase.forecast</field>
+        <field name="prefix">FCAST/</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
+</odoo>

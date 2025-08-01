@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Form view -->
+    <record id="mrf_forecast_view_form" model="ir.ui.view">
+        <field name="name">mrf_forecast.view.form</field>
+        <field name="model">mrf.forecast</field>
+        <field name="arch" type="xml">
+            <form string="Mrf Forecast">
+                <header>
+                    <field name="mrf_forecasting_status" widget="statusbar" invisible='True' />
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button type="object" class="oe_stat_button" icon="fa-line-chart"
+                            name="generate_mfg_forecast" string="Generate Forecast"
+                            invisible="mrf_forecasting_status in ('done')" />
+                        <button type="object" class="oe_stat_button" icon="fa-area-chart"
+                            name="action_mrf_forecast_graph" string="View Forecast Graph" />
+                        <button name="action_generate_forecast_excel"
+                            string="Download Forecast Excel"
+                            type="object"
+                            icon="fa-bar-chart"
+                            class="btn-secondary" />
+                    </div>
+
+
+                    <div>
+                        <h1>
+                            <field name="mrf_sequence" readonly="1" nolabel="1" />
+                        </h1>
+                    </div>
+
+                    <group>
+                        <field name="mrf_forecasting_method"
+                            readonly="change_forecast_method != True" />
+                        <field name="change_forecast_method" widget="boolean_toggle" />
+                    </group>
+
+                    <notebook>
+                        <page name="config" string="Configuration">
+                            <!-- Info Section -->
+                            <div
+                                style="background-color: #d9f1f7; padding: 15px; border-radius: 5px; margin-top: 15px;">
+                                <strong style="color: black;">Fields and their uses :-</strong>
+                                <ul style="margin-top: 10px;  color: black;">
+                                    <li><strong>Start Date</strong> : Initial date from which data
+                                        has to be extracted from database</li>
+                                    <li><strong>End Date</strong> : Date up to which data has to be
+                                        extracted from database</li>
+                                    <li><strong>Forecast Base</strong> : Select whether the
+                                        prediction has to be done for <strong>Specific</strong> or <strong>All
+                                        products</strong></li>
+                                    <li><strong>Products</strong> : Helps to choose specific
+                                        products</li>
+                                    <li><strong>Forecast Period</strong> : Select period of
+                                        forecasting the Purchase</li>
+                                    <li><strong>Forecast Unit</strong> : Count of (Forecast Period)
+                                        for forecasting Purchase</li>
+                                </ul>
+                            </div>
+                            <br></br>
+                            <group>
+                                <field name="date_range"
+                                    readonly="mrf_forecasting_status in ('done')" />
+                                <field name="start_date"
+                                    invisible="date_range not in ('specific_date')"
+                                    readonly="mrf_forecasting_status in ('done')"
+                                    required="date_range in ('specific_date')" />
+                                <field name="end_date"
+                                    invisible="date_range not in ('specific_date')"
+                                    readonly="mrf_forecasting_status in ('done')"
+                                    required="date_range in ('specific_date')" />
+                                <field name="forecast_periods"
+                                    readonly="mrf_forecasting_status in ('done')" />
+                                <field name="resample_type"
+                                    readonly="mrf_forecasting_status in ('done')" />
+                                <field name="aggregate_forecasting"
+                                    readonly="mrf_forecasting_status in ('done')" />
+                                <field name="product_id" widget="many2many_tags"
+                                    invisible="aggregate_forecasting != False"
+                                    readonly="mrf_forecasting_status in ('done')" />
+                            </group>
+                        </page>
+                        <page string="ForeCasting Cofficient">
+                            <div
+                                style="background-color: #d9f1f7; padding: 15px; border-radius: 5px; margin-top: 15px;">
+                                <strong style="color: black;">Forecasting Coefficients Description
+                                    :-</strong>
+                                <br />
+                                <div style="margin-left: 15px; margin-top: 5px;">
+                                    <strong style="color: black;">Order Coefficients</strong>
+                                    <ul style="margin-top: 5px; color: black;">
+                                        <li><code style="color: black;">'<b style="color: black;">p</b>'</code> is the number of
+                                            Autoregressive terms.</li>
+                                        <li><code style="color: black;">'<b style="color: black;">d</b>'</code> is the number of
+                                            nonseasonal differences needed for Stationarity.</li>
+                                        <li><code style="color: black;">'<b style="color: black;">q</b>'</code> is the number of
+                                            lagged forecast errors in the prediction equation</li>
+                                        <li><code style="color: black;">'<b style="color: black;">s</b>'</code> is the length of
+                                            the repeating seasonal cycle within the time series
+                                            data. </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <br></br>
+                            <h2
+                                style="color: #6c63ff; font-size: 20px; font-weight: bold; margin-top: 10px;">
+                                Order Coefficients
+                            </h2>
+                            <group>
+                                <field name="forecast_p"
+                                    readonly="mrf_forecasting_status in ('done')" />
+                                <field name="forecast_d"
+                                    readonly="mrf_forecasting_status in ('done')" />
+                                <field name="forecast_q"
+                                    readonly="mrf_forecasting_status in ('done')" />
+                                <field name="forecast_s"
+                                    readonly="mrf_forecasting_status in ('done')" />
+                            </group>
+                        </page>
+                        <page string="Forecast result">
+                            <field name="forecast_result_ids" domain="[('forecast_total', '>', 0)]"
+                                readonly="mrf_forecasting_status in ('done')">
+                                <list>
+                                    <field name="product_id" />
+                                    <field name="forecast_total" />
+
+                                </list>
+
+                                <form string="Forecast Info">
+                                    <sheet>
+                                        <group>
+                                            <field name="product_id" />
+                                            <field name="forecast_total" />
+                                            <field name="total_on_hand" />
+                                            <field name="req_qty" />
+
+
+                                        </group>
+                                        <group string="Date-wise Forecast">
+                                            <field name="mo_forecast_ids">
+                                                <list editable="bottom">
+                                                    <field name="product_id" />
+                                                    <field name="forecast_date" />
+                                                    <!-- <field name="forecast_qty" /> -->
+                                                    <field name="forecast_mos" />
+                                                    <field name="forecast_mos_req" />
+                                                    <field name="forecast_scrap" />
+                                                </list>
+                                            </field>
+                                        </group>
+
+
+                                        <footer>
+                                            <button name="action_view_line_component_popup"
+                                                type="object"
+                                                string="View Required Components"
+                                                class="btn-primary"
+                                                icon="fa-cubes" />
+                                        </footer>
+
+
+                                    </sheet>
+
+                                </form>
+                            </field>
+
+
+                        </page>
+
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="mrf_forecast_view_list" model="ir.ui.view">
+        <field name="name">mrf_forecast.view.list</field>
+        <field name="model">mrf.forecast</field>
+        <field name="arch" type="xml">
+            <list string="Mrf Forecast">
+                <field name="mrf_sequence" />
+                <field name="mrf_forecasting_method" />
+                <field name="date_range" />
+
+            </list>
+        </field>
+    </record>
+
+    <!-- Window action -->
+    <record id="mrf_forecast_action" model="ir.actions.act_window">
+        <field name="name">Mrf Forecast</field>
+        <field name="res_model">mrf.forecast</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create the Manufacturing Forecasting for the Products.
+            </p>
+        </field>
+    </record>
+
+
+    <record id="view_mrf_forecast_graph" model="ir.ui.view">
+        <field name="name">mrf.forecast.graph.view.graph</field>
+        <field name="model">mrf.forecast.graph</field>
+        <field name="arch" type="xml">
+            <graph string="Forecast vs Historical" type="line">
+                <field name="date" type="row" />
+                <field name="quantity" type="measure" />
+                <field name="data_type" type="col" />
+                <field name="historical_qty" type="measure" />
+                <field name="forecast_qty" type="measure" />
+            </graph>
+        </field>
+    </record>
+
+    <record id="action_mrf_forecast_graph" model="ir.actions.act_window">
+        <field name="name">Forecast Graph</field>
+        <field name="res_model">mrf.forecast.graph</field>
+        <field name="view_mode">graph</field>
+        <field name="context">{'group_by': ['data_type']}</field>
+
+    </record>
+
+
+</odoo>

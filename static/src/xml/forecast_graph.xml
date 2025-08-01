@@ -1,0 +1,17 @@
+<templates id="template" xml:space="preserve">
+    <t t-name="forecast.ForecastGraphTemplate" owl="1">
+        <link rel="stylesheet" href="forecast_graph.css"/>
+        <div class="o_forecast_page_container">
+            <div class="o_forecast_graph_container">
+                <div class="o_forecast_header">
+                    <button 
+                        t-on-click="_toggleChart" 
+                        class="o_forecast_toggle_btn">
+                        <t t-esc="state.showBar ? '📈 Show Line Chart' : '📊 Show Bar Chart'"/>
+                    </button>
+                </div>
+                <canvas id="forecastChart"></canvas>
+            </div>
+        </div>
+    </t>
+</templates>

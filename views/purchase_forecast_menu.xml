@@ -1,0 +1,9 @@
+<odoo>
+<menuitem id="menu_purchase_forecast_root_arima" name="Purchase Forecasting" parent="purchase.menu_purchase_root" sequence="99" groups="ib_forecasting.group_purchase_forecast"/>
+<menuitem id="menu_purchase_forecast_arima" name="Product Forecast" parent="menu_purchase_forecast_root_arima" action="action_purchase_forecast_arima" />
+<menuitem id="menu_purchase_forecast_line_sub"
+          name="Forecast Results"
+          parent="menu_purchase_forecast_root_arima"
+          action="action_purchase_forecast_line_sub"
+          sequence="20"/>
+</odoo>

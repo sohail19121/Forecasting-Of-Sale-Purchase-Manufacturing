@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- <record id="view_purchase_forecast_line_form" model="ir.ui.view">
+    <field name="name">purchase.forecast.line.form</field>
+    <field name="model">purchase.forecast.line.arima</field>
+    <field name="arch" type="xml">
+        <form string="Forecast Result">
+            
+            <sheet>
+            <group>
+                <field name="product_id"/>
+                <field name="forecast_qty"/>
+                <field name="on_hand_qty"/>
+                <field name="suggested_qty"/>
+            </group>
+                <notebook>
+             
+                        
+               
+                    <page string="Forecast Graph">
+                        <group>
+                            <field name="forecast_graph" widget="image"/>
+                        </group>
+                    </page>
+                    <page string="CSV File">
+                        <group>
+                            <field name="forecast_csv_filename"/>
+                            <field name="forecast_csv" widget="binary" filename="forecast_csv_filename"/>
+                        </group>
+                    </page>
+                    
+                </notebook>
+                <footer>
+                     <!/ <button name="action_show_graph_popup_arima" -->
+                            <!-- type="object"
+                            class="btn btn-primary"
+                            icon="fa-bar-chart"
+                            string="Show Forecast Graph"/>
+                    <button string="Close" class="btn-secondary" special="cancel"/> -->
+                <!-- </footer>
+            </sheet>
+        </form>
+    </field>
+</record> --> 
+
+<record id="view_purchase_forecast_line_list" model="ir.ui.view">
+    <field name="name">purchase.forecast.line.list</field>
+    <field name="model">purchase.forecast.line.arima</field>
+    <field name="arch" type="xml">
+        <list>
+            <field name="product_id"/>
+            <field name="forecast_qty"/>
+            <field name="suggested_qty"/>
+        </list>
+    </field>
+</record>
+
+<record id="action_purchase_forecast_line_sub" model="ir.actions.act_window">
+    <field name="name">Forecast Results</field>
+    <field name="res_model">purchase.forecast.line.arima</field>
+    <field name="view_mode">list</field>
+    <field name="help" type="html">
+        <p>Manage forecast results generated from purchase forecasting.</p>
+    </field>
+</record>
+
+</odoo>

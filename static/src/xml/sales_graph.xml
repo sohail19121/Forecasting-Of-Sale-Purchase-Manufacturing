@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="forecast.SaleforecastGraphTemplate">
+        <link rel="stylesheet" href="sale_graph.css"/>
+        <div class="o_salegraph_page_container">
+            <div class="o_salegraph_graph_container">
+                <div class="o_salegraph_header">
+                    <button 
+                        t-on-click="_toggleChart" 
+                        class="o_salegraph_toggle_btn">
+                        <t t-esc="state.showBar ? '📈 Show Line Chart' : '📊 Show Bar Chart'"/>
+                    </button>
+                </div>
+                <canvas id="saleschart"></canvas>
+            </div>
+        </div>
+    </t>
+</templates>
